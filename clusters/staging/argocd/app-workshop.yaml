@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: workshop-staging
+  namespace: argocd-staging
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/xavero-evandro/devops-workshop-gitops
+    targetRevision: main
+    path: apps/workshop/overlays/staging
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: workshop-staging
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
